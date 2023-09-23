@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -93,14 +94,19 @@ func ListStreams(c *gin.Context) {
 
 func Forward(c *gin.Context) {
 	var response string
+	// port := utils.GetFirstAvailablePort()
+	// customProtocol := "/x/7proxies/1.0"
+	// listenAddr := "/ip4/127.0.0.1/" + port
+	// fmt.Println(listenAddr)
 	s := shell.NewLocalShell()
 	reqBuilder := s.Request("p2p/forward")
-	reqBuilder.Arguments("/x/7proxies/1.0", "/ip4/127.0.0.1/tcp/3333", "/p2p/12D3KooWNngZko3MYLgd73W6MspMQdYWkcXP2dqBHWZR8nheLnpG")
+	reqBuilder.Arguments("/x/7proxies/1.0", "/ip4/127.0.0.1/3333", "/p2p/12D3KooWNngZko3MYLgd73W6MspMQdYWkcXP2dqBHWZR8nheLnpG")
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
 		if err == io.EOF {
 			c.String(http.StatusOK, "OK")
 		} else {
+			fmt.Println(err)
 			c.String(http.StatusInternalServerError, "Cannot enable Forward for this connection")
 		}
 	}
@@ -108,9 +114,9 @@ func Forward(c *gin.Context) {
 }
 
 func CloseAllSteams(c *gin.Context) {
-	var response string
+	var response int
 	s := shell.NewLocalShell()
-	reqBuilder9050 := s.Request("p2p/close")
+	reqBuilder := s.Request("p2p/close")
 	reqBuilder.Option("all", true)
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {

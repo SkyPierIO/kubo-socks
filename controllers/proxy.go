@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"strconv"
+
 	socks5 "github.com/armon/go-socks5"
+	"github.com/dProxSocks/kubo-socks/utils"
 )
 
 func StartProxy() {
@@ -13,8 +16,10 @@ func StartProxy() {
 		panic(err)
 	}
 
+	config := utils.LoadConfiguration("./config.json")
+	address := "127.0.0.1:" + strconv.Itoa(config.SocksPort)
 	// Create SOCKS5 proxy on localhost port 8000
-	if err := server.ListenAndServe("tcp", "127.0.0.1:1080"); err != nil {
+	if err := server.ListenAndServe("tcp", address); err != nil {
 		panic(err)
 	}
 }
