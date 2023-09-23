@@ -45,6 +45,10 @@ type P2PStreamsList struct {
 	}
 }
 
+type Node struct {
+	ID string
+}
+
 type Peer struct {
 	Addr string
 	Peer string
@@ -103,6 +107,22 @@ func Forward(c *gin.Context) {
 
 }
 
+func CloseAllSteams(c *gin.Context) {
+	var response string
+	s := shell.NewLocalShell()
+	reqBuilder9050 := s.Request("p2p/close")
+	reqBuilder.Option("all", true)
+	err := reqBuilder.Exec(context.Background(), &response)
+	if err != nil {
+		if err == io.EOF {
+			c.String(http.StatusOK, "OK")
+		} else {
+			log.Fatal(err)
+		}
+	}
+
+}
+
 func ShowPeers(c *gin.Context) {
 	var response *PeerList
 	s := shell.NewLocalShell()
@@ -112,4 +132,15 @@ func ShowPeers(c *gin.Context) {
 		log.Fatal(err)
 	}
 	c.IndentedJSON(http.StatusOK, response.Peers)
+}
+
+func GetID(c *gin.Context) {
+	var response *Node
+	s := shell.NewLocalShell()
+	reqBuilder := s.Request("id")
+	err := reqBuilder.Exec(context.Background(), &response)
+	if err != nil {
+		log.Fatal(err)
+	}
+	c.IndentedJSON(http.StatusOK, response.ID)
 }

@@ -1,10 +1,11 @@
-module github.com/dProxSocks/kubo-socks-plugin
+module github.com/dProxSocks/kubo-socks
 
 go 1.20
 
 require github.com/gin-gonic/gin v1.9.1
 
 require (
+	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 // indirect
 	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
