@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/dProxSocks/kubo-socks/utils"
 	"github.com/gin-gonic/gin"
 	shell "github.com/ipfs/go-ipfs-api"
 )
@@ -33,6 +34,11 @@ type P2PListener struct {
 type P2PStream struct {
 	Protocol string
 	Address  string
+}
+
+type Redirection struct {
+	Protocol string
+	Target   string
 }
 
 type P2PStreamsList struct {
@@ -94,13 +100,14 @@ func ListStreams(c *gin.Context) {
 
 func Forward(c *gin.Context) {
 	var response string
-	// port := utils.GetFirstAvailablePort()
-	// customProtocol := "/x/7proxies/1.0"
-	// listenAddr := "/ip4/127.0.0.1/" + port
-	// fmt.Println(listenAddr)
+	nodeID := c.Param("nodeID")
+	port := utils.GetFirstAvailablePort()
+	customProtocol := "/x/7proxies/1.0"
+	listenAddr := "/ip4/127.0.0.1/tcp/" + port
+	fmt.Println(listenAddr)
 	s := shell.NewLocalShell()
 	reqBuilder := s.Request("p2p/forward")
-	reqBuilder.Arguments("/x/7proxies/1.0", "/ip4/127.0.0.1/3333", "/p2p/12D3KooWNngZko3MYLgd73W6MspMQdYWkcXP2dqBHWZR8nheLnpG")
+	reqBuilder.Arguments(customProtocol, listenAddr, "/p2p/"+nodeID)
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
 		if err == io.EOF {
@@ -110,7 +117,25 @@ func Forward(c *gin.Context) {
 			c.String(http.StatusInternalServerError, "Cannot enable Forward for this connection")
 		}
 	}
+}
 
+func Listen(protocol string, target string) {
+	var response string
+	redirection := Redirection{
+		Protocol: protocol,
+		Target:   target,
+	}
+	s := shell.NewLocalShell()
+	reqBuilder := s.Request("p2p/listen")
+	reqBuilder.Arguments(redirection.Protocol, redirection.Target)
+	err := reqBuilder.Exec(context.Background(), &response)
+	if err != nil {
+		if err == io.EOF {
+			fmt.Println("Listening for new proxy connection")
+		} else {
+			fmt.Println(err)
+		}
+	}
 }
 
 func CloseAllSteams(c *gin.Context) {

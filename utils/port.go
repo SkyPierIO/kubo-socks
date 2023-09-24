@@ -14,7 +14,7 @@ func GetFirstAvailablePort() string {
 		timeout := time.Second
 		conn, err := net.DialTimeout("tcp", net.JoinHostPort(host, p), timeout)
 		if err != nil {
-			fmt.Println("Port is closed, ", err)
+			fmt.Println("Using port " + p + " for forwarding the traffic")
 			return p
 		}
 		if conn != nil {
