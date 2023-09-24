@@ -7,10 +7,8 @@ import (
 )
 
 type Config struct {
-	Debug     bool `json:"debug"`
-	Log       bool `json:"log"`
-	Port      int  `json:"port"`
-	SocksPort int  `json:"socksPort"`
+	Port      int `json:"port"`
+	SocksPort int `json:"socksPort"`
 }
 
 func LoadConfiguration(file string) Config {

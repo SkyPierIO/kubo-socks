@@ -16,6 +16,19 @@ And then run it with
 ./kubo-socks
 ```
 
+You will have to create a `config.json` file containing the plugin configuration.
+Here is a configuration example you can use.
+
+```json
+{
+    "port": 8081,
+    "socksPort": 1080
+}
+```
+
+- `port` is the plugin listening port. You can interact with the API at http://localhost:8081/api/v0/ in this example.
+- `socksPort` is the SOCKS5 listening port
+
 ## SOCKS5 Proxy
 
 The plugin is running a local SOCKS5 proxy on port `tcp/1080`.
