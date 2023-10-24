@@ -6,6 +6,7 @@ import (
 
 	"github.com/dProxSocks/kubo-socks/controllers"
 	"github.com/dProxSocks/kubo-socks/utils"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,7 @@ func main() {
 	config := utils.LoadConfiguration("./config.json")
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
+	router.Use(cors.Default())
 
 	fmt.Println("───────────────────────────────────────────────────")
 	fmt.Println("🌎😎 ~~ YOU ARE RUNNING KUBO SOCKS PLUGIN ~~  😎🌎")
