@@ -41,6 +41,12 @@ type Redirection struct {
 	Target   string
 }
 
+type PingResult struct {
+	Success bool
+	Text    string
+	Time    int
+}
+
 type P2PStreamsList struct {
 	Streams []*struct {
 		HandlerID     string
@@ -96,6 +102,20 @@ func ListStreams(c *gin.Context) {
 		log.Fatal(err)
 	}
 	c.IndentedJSON(http.StatusOK, response.Streams)
+}
+
+// Send echo request packets to IPFS hosts.
+func Ping(c *gin.Context) {
+	var response *PingResult
+	nodeID := c.Param("nodeID")
+	s := shell.NewLocalShell()
+	reqBuilder := s.Request("ping")
+	reqBuilder.Arguments(nodeID, "1") // args: nodeId, ping count
+	err := reqBuilder.Exec(context.Background(), &response)
+	if err != nil {
+		log.Fatal(err)
+	}
+	c.IndentedJSON(http.StatusOK, response)
 }
 
 func Forward(c *gin.Context) {

@@ -30,10 +30,13 @@ func main() {
 
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	router.Use(gin.Recovery())
+	router.GET("/", func(c *gin.Context) {
+		c.String(200, "OK")
+	})
 
 	api := router.Group("/api/v0")
 	api.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello")
+		c.String(200, "OK")
 	})
 	api.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
@@ -42,6 +45,7 @@ func main() {
 	api.GET("/listeners", controllers.ListListeners)
 	api.GET("/peers", controllers.ShowPeers)
 	api.GET("/forward/:nodeID", controllers.Forward)
+	api.GET("/ping/:nodeID", controllers.Ping)
 	api.GET("/streams/close", controllers.CloseAllSteams)
 	api.GET("/id", controllers.GetID)
 
