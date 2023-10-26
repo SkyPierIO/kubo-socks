@@ -113,7 +113,8 @@ func Ping(c *gin.Context) {
 	reqBuilder.Arguments(nodeID, "1") // args: nodeId, ping count
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		c.IndentedJSON(http.StatusInternalServerError, err)
 	}
 	c.IndentedJSON(http.StatusOK, response)
 }
