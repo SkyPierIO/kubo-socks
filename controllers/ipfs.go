@@ -71,6 +71,13 @@ type PeerList struct {
 	Peers []*Peer
 }
 
+type ForwardResponse struct {
+	Success          bool
+	Status           string
+	ListeningAddress string
+	ListeningPort    string
+}
+
 // -------------------------------------------------------------------
 // 		    __  ___     __  __              __
 // 		   /  |/  /__  / /_/ /_  ____  ____/ /____
@@ -132,10 +139,12 @@ func Forward(c *gin.Context) {
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
 		if err == io.EOF {
-			c.String(http.StatusOK, "OK")
+			resp := ForwardResponse{true, "Forward enabled to node " + nodeID, "127.0.0.1", port}
+			c.IndentedJSON(http.StatusOK, resp)
 		} else {
 			fmt.Println(err)
-			c.String(http.StatusInternalServerError, "Cannot enable Forward for this connection")
+			resp := ForwardResponse{false, "Cannot enable Forward for this connection: " + err.Error(), "0", "0"}
+			c.IndentedJSON(http.StatusInternalServerError, resp)
 		}
 	}
 }
