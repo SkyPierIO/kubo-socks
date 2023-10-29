@@ -16,8 +16,8 @@ And then run it with
 ./kubo-socks
 ```
 
-You will have to create a `config.json` file containing the plugin configuration.
-Here is a configuration example you can use.
+You can create a `config.json` file containing the plugin configuration.
+Here is the default configuration.
 
 ```json
 {
