@@ -52,6 +52,7 @@ func main() {
 	// Enable the Listener by default on the proxy port
 	protocol := "/x/7proxies/1.0"
 	target := "/ip4/127.0.0.1/tcp/" + strconv.Itoa(config.SocksPort)
+	controllers.EnableLibp2pStreaming()
 	controllers.Listen(protocol, target)
 
 	fmt.Println("───────────────────────────────────────────────────")

@@ -47,6 +47,11 @@ type PingResult struct {
 	Time    int
 }
 
+type ConfigResult struct {
+	Key   string
+	Value bool
+}
+
 type P2PStreamsList struct {
 	Streams []*struct {
 		HandlerID     string
@@ -91,7 +96,6 @@ func ListListeners(c *gin.Context) {
 	var response *P2PListenerList
 	s := shell.NewLocalShell()
 	reqBuilder := s.Request("p2p/ls")
-	// reqBuilder.Arguments("arg1", "arg2")
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
 		log.Fatal(err)
@@ -103,12 +107,23 @@ func ListStreams(c *gin.Context) {
 	var response *P2PStreamsList
 	s := shell.NewLocalShell()
 	reqBuilder := s.Request("p2p/stream/ls")
-	// reqBuilder.Arguments("arg1", "arg2")
 	err := reqBuilder.Exec(context.Background(), &response)
 	if err != nil {
 		log.Fatal(err)
 	}
 	c.IndentedJSON(http.StatusOK, response.Streams)
+}
+
+func EnableLibp2pStreaming() {
+	var response *ConfigResult
+	s := shell.NewLocalShell()
+	reqBuilder := s.Request("config")
+	reqBuilder.Arguments("Experimental.Libp2pStreamMounting", "true")
+	reqBuilder.Option("bool", true)
+	err := reqBuilder.Exec(context.Background(), &response)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // Send echo request packets to IPFS hosts.
