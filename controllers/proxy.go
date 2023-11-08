@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/SkyPierIO/kubo-socks/utils"
 	socks5 "github.com/armon/go-socks5"
-	"github.com/dProxSocks/kubo-socks/utils"
 )
 
 func StartProxy() {

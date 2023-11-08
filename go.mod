@@ -1,4 +1,4 @@
-module github.com/dProxSocks/kubo-socks
+module github.com/SkyPierIO/kubo-socks
 
 go 1.20
 

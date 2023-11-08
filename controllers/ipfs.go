@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dProxSocks/kubo-socks/utils"
+	"github.com/SkyPierIO/kubo-socks/utils"
 	"github.com/gin-gonic/gin"
 	shell "github.com/ipfs/go-ipfs-api"
 )

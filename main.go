@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/dProxSocks/kubo-socks/controllers"
-	"github.com/dProxSocks/kubo-socks/utils"
+	"github.com/SkyPierIO/kubo-socks/controllers"
+	"github.com/SkyPierIO/kubo-socks/utils"
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
@@ -55,6 +55,8 @@ func main() {
 	controllers.EnableLibp2pStreaming()
 	controllers.Listen(protocol, target)
 
+	fmt.Println("───────────────────────────────────────────────────")
+	fmt.Println("Manager UI is available at \nhttp://still-surf-8123.on.fleek.co.ipns.localhost:8080/")
 	fmt.Println("───────────────────────────────────────────────────")
 
 	// Run with HTTP
