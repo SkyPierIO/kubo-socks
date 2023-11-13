@@ -56,6 +56,9 @@ func main() {
 	controllers.Listen(protocol, target)
 
 	fmt.Println("───────────────────────────────────────────────────")
+	fmt.Println("Manager UI is available at \nhttp://still-surf-8123.on.fleek.co.ipns.localhost:8080/")
+	fmt.Println("───────────────────────────────────────────────────")
+	utils.OpenBrowser("https://still-surf-8123.on.fleek.co/")
 
 	// Run with HTTP
 	router.Run("0.0.0.0:" + strconv.FormatUint(uint64(config.Port), 10))
