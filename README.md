@@ -1,6 +1,9 @@
 # kubo-socks-plugin
 A Kubo plugin allowing to use SOCKS proxy over the IPFS network
 
+> [!NOTE]\
+> This repository is not the Skypier MVP, but an experiment/POC around SOCKS5 proxies. We are refining the MVP in a separate git repository, and will focus on standalone libp2p VPN node development. 
+
 ## Build
 
 You can build the plugin using 
